@@ -1,0 +1,20 @@
+{
+  "name": "chordial",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^3.0.7"
+  },
+  "dependencies": {
+    "jsdom": "^20.0.0",
+    "sass": "^1.54.4",
+    "vitest": "^0.22.0"
+  }
+}

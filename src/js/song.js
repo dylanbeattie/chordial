@@ -10,6 +10,18 @@ class Beat {
 }
 
 class Song {
+    constructor() {
+        this.beats = new Array();
+    }
+    insertBeat(index, chord, lyric) {
+        this.beats.splice(index, 0, new Beat(chord, lyric));
+    }
+    appendBeat(chord, lyric) {
+        this.beats.push(new Beat(chord, lyric))
+    }
+    removeBeat(index) {
+        this.beats.splice(index, 1);
+    }
     static parseLines(lines) {
         let song = new Song();
         song.beats = lines.split(/\r?\n/).map(line => {

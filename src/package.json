@@ -13,6 +13,7 @@
     "vite": "^3.0.7"
   },
   "dependencies": {
+    "@tonaljs/tonal": "^4.6.5",
     "jsdom": "^20.0.0",
     "sass": "^1.54.4",
     "vitest": "^0.22.0"

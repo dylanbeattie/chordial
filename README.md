@@ -11,13 +11,13 @@ Chordial's interface is a weird cross between a music notation app and a spreads
 
 ### Keys:
 
-`Tab`, `Right Arrow`: move one cell towards the end of the song. If you're on the final cell, add another cell and give it focus.
+`Tab`, `Right Arrow`: move one beat towards the end of the song. If you're on the final beat, add another beat and give it focus.
 
-`Left Arrow`: move one cell towards the beginning of the song.
+`Left Arrow`: move one beat towards the beginning of the song.
 
-`Ins`: insert a new cell before the current cell.
+`Ins`: insert a new beat before the current beat.
 
-`Del`: delete the current cell.
+`Ctrl+Del`: delete the current beat.
 
 `Shift+arrow` (or mouse drag): select a range of cells. Ranges must be linear.
 

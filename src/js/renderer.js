@@ -1,11 +1,20 @@
 import styles from '../css/chordial.scss';
 import { Chord } from '@tonaljs/tonal';
 
+const COLUMNS = 16;
 export class Renderer {
+    get offset() {
+        return (COLUMNS * 2) - 1;
+    }
+
     constructor(editor, dom) {
         this.editor = editor;
         this.dom = dom;
-        this.chartDiv = this.createElement('div', { 'class': 'chart' });
+        var chartDivAttributes = { 
+            'class': 'chart',
+            'style': `grid-template-columns: ${new Array(COLUMNS).fill("1fr").join(" ")}`
+        };
+        this.chartDiv = this.createElement('div', chartDivAttributes);     
         this.dom.appendChild(this.chartDiv);
         this.index = 0;
     }
@@ -35,7 +44,7 @@ export class Renderer {
         if (input.className == "lyric") {
             this.index -= 1;
         } else {
-            if (this.index > 15) this.index -= 15;
+            if (this.index > this.offset) this.index -= this.offset;
         }
     }
     moveFocusDown() {
@@ -43,7 +52,7 @@ export class Renderer {
         if (input.className == "chord") {
             this.index += 1;
         } else {
-            this.index += 15;
+            this.index += this.offset;
         }
     }
 
@@ -55,7 +64,7 @@ export class Renderer {
     }
     renderTextForPremiere(song) {        
         let chords = song.beats.map(beat => this.beautify(beat.chord.symbol)).join("\t");        
-        let lyrics = song.beats.map((beat, index) => (index % 4 == 0 ? beat.lyric.trim().substring(0,8) : '')).join("\t");
+        let lyrics = song.beats.map(beat => beat.lyric).join("\t");
         return [chords, lyrics].join("\n");
     }
 
@@ -71,7 +80,13 @@ export class Renderer {
     }
     beautify(chord) {
         if (! chord.replace) return(chord);
-        return chord.replace(/b/g, '♭').replace(/#/g, '♯').replace(/dim/, 'o').replace(/aug/g, '+').replace(/maj7/g, 'Δ7');
+        return chord
+            .replace(/b/g, '♭')
+            .replace(/#/g, '♯')
+            .replace(/dim/, 'o')
+            .replace(/aug/g, '+')
+            .replace(/maj7/g, 'Δ7')
+            .replace(/7/g, '⁷');
     }
 
     renderBeat(beat, index) {
@@ -85,7 +100,7 @@ export class Renderer {
         let lyricInput = this.createElement('input', { 'class': 'lyric' });
         lyricInput.addEventListener("focus", this.onInputFocus.bind(this));
         lyricInput.addEventListener("blur", this.onInputBlur.bind(this));
-        lyricInput.value = beat.lyric;
+        lyricInput.value = beat.lyric.trimEnd().replace(/ /g, '·');
         lyricInput.beatIndex = index;
         beatDiv.appendChild(lyricInput);
         return beatDiv;
@@ -95,6 +110,8 @@ export class Renderer {
         let input = event.target;
         let inputs = this.dom.querySelectorAll("input");
         this.index = [].indexOf.call(inputs, input);
+        input.select();
+
     }
     onInputBlur(event) {
         let index = event.target.beatIndex;

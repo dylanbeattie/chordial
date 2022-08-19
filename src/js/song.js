@@ -1,4 +1,4 @@
-import { Chord } from '@tonaljs/tonal';
+import { Chord, Interval } from '@tonaljs/tonal';
 
 class Beat {
     uglify = chordName => chordName.replace(/♭/g, 'b').replace(/♯/g, '#');
@@ -64,10 +64,11 @@ class Song {
         return beats;        
     }
 
-    asciify() {
+    asciify(beatsPerLine) {
+        beatsPerLine ||= 16;
         let output = new Array();
-        for (var i = 0; i < this.beats.length; i+=8) {
-            let chonk = this.beats.slice(i, i+8);
+        for (var i = 0; i < this.beats.length; i+=beatsPerLine) {
+            let chonk = this.beats.slice(i, i+beatsPerLine);
             let chords = "";
             let lyrics = "";
             for(var j = 0; j < chonk.length; j++) {
